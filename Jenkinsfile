@@ -7,7 +7,7 @@ node {
       stage('Build image') {         
             
            // docker build -f Dockerfile -t dockerimage .
-            app = docker.build("sandhyasubudhi1998/test")    
+             docker build -f Dockerfile -t dockerimage .  
        }     
       stage('Test image') {           
             app.inside {            
