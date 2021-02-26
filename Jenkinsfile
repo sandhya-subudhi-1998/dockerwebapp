@@ -1,36 +1,23 @@
-pipeline {
-  environment {
-    registry = "sandhyasubudhi1998/docker-test"
-    registryCredential = 'docker-hub'
-    dockerImage = ''
-  }
-  agent any
-  stages {
-    stage('Cloning Git') {
-      steps {
-        git 'https://github.com/sandhya-subudhi-1998/dockerwebapp.git'
-      }
-    }
-   stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+node {    
+      def app     
+      stage('Clone repository') {               
+             
+            checkout scm    
+      }     
+      stage('Build image') {         
+       
+            app = docker.build("sandhyasubudhi1998/test")    
+       }     
+      stage('Test image') {           
+            app.inside {            
+             
+             sh 'echo "Tests passed"'        
+            }    
+        }     
+       stage('Push image') {
+       docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {            
+       app.push("${env.BUILD_NUMBER}")            
+       app.push("latest")        
+              }    
+           }
         }
-      }
-    }
-   stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
-        }
-      }
-    }
-   stage('Remove Unused docker image') {
-      steps{
-        echo "  "
-      }
-    }
-  }
-}
