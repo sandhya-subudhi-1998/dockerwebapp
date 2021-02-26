@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/gustavoapolinario/microservices-node-example-todo-frontend.git'
+        git 'https://github.com/sandhya-subudhi-1998/dockerwebapp.git'
       }
     }
     stage('Building image') {
@@ -25,6 +25,11 @@ pipeline {
             dockerImage.push()
           }
         }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        echo "  "
       }
     }
   }
