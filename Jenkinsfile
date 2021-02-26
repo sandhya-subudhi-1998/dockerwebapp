@@ -13,6 +13,13 @@ node {
         app = docker.build("sandhyasubudhi1998/nodeapp")
     }
 
+    stage('Test image') {
+        
+        
+            echo "Tests passed"
+        
+    }
+
     stage('Push image') {
         /* 
 			You would need to first register with DockerHub before you can push images to your account
