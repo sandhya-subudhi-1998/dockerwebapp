@@ -5,9 +5,10 @@ node {
             checkout scm    
       }     
       stage('Build image') {         
-            
+            steps {
            // docker build -f Dockerfile -t dockerimage .
              docker build -f Dockerfile -t dockerimage .  
+                   }
        }     
       stage('Test image') {           
             app.inside {            
