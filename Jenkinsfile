@@ -1,26 +1,12 @@
-node {    
-      def app     
-      stage('Clone repository') {               
-             
-            checkout scm    
-      }     
-      stage('Build image') {         
-            steps {
-           // docker build -f Dockerfile -t dockerimage .
-             docker build -f Dockerfile -t dockerimage .  
-                   }
-       }     
-      stage('Test image') {           
-            app.inside {            
-             
-             sh 'echo "Tests passed"'        
-            }    
-        }     
-       stage('Push image') {
-       docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {            
-       app.push("${env.BUILD_NUMBER}")            
-       app.push("latest")        
-              }    
-           }
-        }
+node {
 
+    checkout scm
+
+    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+
+        def customImage = docker.build("sandhyasubudhi1998/dockerwebapp")
+
+        /* Push the container to the custom Registry */
+        customImage.push()
+    }
+}
